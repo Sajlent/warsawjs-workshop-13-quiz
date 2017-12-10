@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Who Wants To Be a Milionaire?</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div id="app">
+  <h1>Todo</h1>
+  <ul v-for="todo in unfinishedTodos">
+    <li>{{ todo.text }} - {{ todo.text | stringLength }}</li>
+    <button v-if="!todo.finished" @click="todo.finished = true"></button>
+  </ul>
+  <input v-model="newTodo">
+  <button @click="addTodo">Add todo</button>
+  <h1>Finished</h1>
+  <ul>
+    <li v-for="todo in finishedTodos">
+      {{ todo.text }}
+    </li>
+  </ul>
+</div>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      todos: [
+        { text: "Aplikacja na warsztaty", finished: true },
+        { text: "Obiad", finished: false }
+      ],
+      newTodo: ''
+    },
+    methods: {
+      addTodo: function() {
+        this.todos.push(this.newTodo);
+        this.newTodo = ''
+      }
+    },
+    filters: {
+      stringLength: function(arg) {
+        return arg.length;
+      }
+    },
+    computed: {
+      finishedTodos: function() {
+        return this.todos.filter(function (todo) {
+          return todo.finished
+        })
+      },
+      unfinishedTodos: function() {
+        return this.todos.filter(function (todo) {
+          return !todo.finished
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>
